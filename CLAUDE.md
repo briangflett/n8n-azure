@@ -371,16 +371,110 @@ az containerapp update \
 ```
 
 #### 4. **Environment Variable Updates**
+
+**IMPORTANT**: Updating environment variables requires careful attention to ensure all values are preserved.
+
+**Method 1: Update Single Environment Variable (Safe)**
+
 Ask Claude:
 > "Change the timezone to America/Toronto"
 
-Claude will update the deployment script and redeploy:
+Claude will run:
 ```bash
-# Update N8N_TIMEZONE in 3_deploy_container_app.sh
-./3_deploy_container_app.sh
+az containerapp update \
+  --name mas-n8n-app \
+  --resource-group mas-n8n-rg \
+  --set-env-vars "GENERIC_TIMEZONE=America/Toronto"
 ```
 
-#### 5. **Database Connection Issues**
+**Method 2: Update Multiple Environment Variables (Use with Caution)**
+
+When updating multiple variables, you MUST include ALL environment variables with their values, not just the ones you're changing. Otherwise, variables will lose their values.
+
+Ask Claude:
+> "Update environment variables for OAuth support"
+
+Claude will run the full set of environment variables:
+```bash
+az containerapp update \
+  --name mas-n8n-app \
+  --resource-group mas-n8n-rg \
+  --set-env-vars \
+    "N8N_ENCRYPTION_KEY=secretref:n8n-encryption-key" \
+    "DB_TYPE=postgresdb" \
+    "DB_POSTGRESDB_HOST=mas-n8n-postgress-db.postgres.database.azure.com" \
+    "DB_POSTGRESDB_PORT=5432" \
+    "DB_POSTGRESDB_DATABASE=n8n" \
+    "DB_POSTGRESDB_USER=brian" \
+    "DB_POSTGRESDB_PASSWORD=secretref:n8n-db-password" \
+    "GENERIC_TIMEZONE=Asia/Jerusalem" \
+    "N8N_BASIC_AUTH_ACTIVE=true" \
+    "N8N_BASIC_AUTH_USER=brian" \
+    "N8N_BASIC_AUTH_PASSWORD=secretref:n8n-admin-password" \
+    "TRUST_PROXY=true" \
+    "N8N_PROXY_HOPS=1" \
+    "N8N_EDITOR_BASE_URL=https://n8n.masadvise.org/" \
+    "WEBHOOK_URL=https://n8n.masadvise.org/" \
+    --output none
+```
+
+**Method 3: Use MAS Deployment Script (Recommended for Major Changes)**
+
+For comprehensive updates or when you're unsure, use the deployment script:
+```bash
+./3_deploy_container_app_MAS.sh
+```
+
+**Common Pitfall**: If you only provide some variables, the others will be set without values (just the name). Always verify after updating:
+
+```bash
+# Check specific environment variables
+az containerapp show \
+  --name mas-n8n-app \
+  --resource-group mas-n8n-rg \
+  --query "properties.template.containers[0].env[?name=='N8N_EDITOR_BASE_URL' || name=='WEBHOOK_URL']" \
+  --output table
+```
+
+#### 5. **Database Password Management**
+
+**CRITICAL**: The PostgreSQL password must match the password stored in Key Vault.
+
+**Common Issue**: If you run the deployment script (`3_deploy_container_app_MAS.sh`), it generates a NEW random password and updates Key Vault, but PostgreSQL keeps the OLD password. This causes authentication failures.
+
+**How to Fix Password Mismatch:**
+
+Ask Claude:
+> "n8n shows 'password authentication failed for user brian'"
+
+Claude will:
+1. Retrieve the current password from Key Vault
+2. Update PostgreSQL server to match:
+
+```bash
+# Get password from Key Vault
+DB_PASSWORD=$(az keyvault secret show \
+  --vault-name mas-n8n-kv \
+  --name N8N-DB-Password \
+  --query "value" \
+  --output tsv)
+
+# Update PostgreSQL server
+az postgres flexible-server update \
+  --resource-group mas-n8n-rg \
+  --name mas-n8n-postgress-db \
+  --admin-password "$DB_PASSWORD"
+
+# Force container restart to reconnect
+az containerapp update \
+  --name mas-n8n-app \
+  --resource-group mas-n8n-rg \
+  --revision-suffix "dbfix$(date +%s)"
+```
+
+**Prevention**: When running deployment scripts, be aware they generate new secrets. Existing PostgreSQL servers need password updates.
+
+#### 6. **Database Connection Issues**
 Ask Claude:
 > "n8n can't connect to the database, help troubleshoot"
 
@@ -390,8 +484,9 @@ Claude will:
 3. Test database connectivity
 4. Check Key Vault secret retrieval
 5. Review container logs for connection errors
+6. Check for password mismatches (see section 5 above)
 
-#### 6. **Checking Costs**
+#### 7. **Checking Costs**
 Ask Claude:
 > "Show me the current Azure costs for n8n"
 
@@ -400,7 +495,7 @@ Claude will:
 az consumption usage list --start-date $(date -d "30 days ago" +%Y-%m-%d) --end-date $(date +%Y-%m-%d) | grep mas-n8n
 ```
 
-#### 7. **Backup and Restore**
+#### 8. **Backup and Restore**
 Ask Claude:
 > "Create a backup of the n8n database"
 
@@ -412,7 +507,7 @@ az postgres flexible-server backup create \
   --backup-name "manual-backup-$(date +%Y%m%d)"
 ```
 
-#### 8. **Custom Domain Issues**
+#### 9. **Custom Domain Issues**
 Ask Claude:
 > "The custom domain n8n.masadvise.org isn't working"
 
@@ -423,7 +518,7 @@ Claude will:
 4. Test SSL/TLS certificate
 5. Review ingress configuration
 
-#### 9. **Security Audit**
+#### 10. **Security Audit**
 Ask Claude:
 > "Audit the security configuration of the n8n deployment"
 
@@ -435,7 +530,7 @@ Claude will review:
 - Container security (non-root user)
 - Secret management (no plaintext secrets)
 
-#### 10. **Performance Issues**
+#### 11. **Performance Issues**
 Ask Claude:
 > "n8n is running slow, help optimize performance"
 
@@ -671,6 +766,7 @@ Ask Claude:
 |------|---------|---------|-----|
 | 2025-08-20 | 1.0 | Initial deployment, custom domain configured | brian.flett@masadvise.org |
 | 2025-11-06 | 1.1 | Documentation created (CLAUDE.md) | Claude Code Assistant |
+| 2025-11-06 | 1.2 | OAuth URL configuration fix, database password sync, environment variable management documentation | Claude Code Assistant |
 
 ---
 
