@@ -1,0 +1,417 @@
+{
+  "name": "AP Donor Outreach",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {}
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -496,
+        304
+      ],
+      "id": "1ffcf5f9-5916-4ddf-a769-e2542704decd",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "content": "## Collect Inputs \n- Read CRM\n   - Fundraising Roadmap Google Sheets\n   - All rows with Google Alerts = Yes\n- Read GMail\n   - All Google Alerts\n   - Tagged with the name from the CRM row - need to convert label to ID\n- Read prospect dossiers\n   - All Google Docs with the name from the CRM row",
+        "height": 624,
+        "width": 816
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -320,
+        0
+      ],
+      "typeVersion": 1,
+      "id": "f464ad6d-b64d-42e6-a99e-3cf42dfc2989",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "## Identify Actions \n- Identify potential actions to take based on inputs\n- Group and prioritize them.",
+        "height": 640,
+        "width": 464
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        560,
+        0
+      ],
+      "typeVersion": 1,
+      "id": "35cc6939-b811-4417-9730-995211ff7a27",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "content": "## Assign Tasks\n- Determine who to assign \n- Set target date\n- Write to PM tool (MS Planner or Monday.com)"
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1072,
+        -16
+      ],
+      "typeVersion": 1,
+      "id": "8ed9936c-d55b-4a95-928d-658677e92a17",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "content": "## Draft Emails\n- Create initial draft\n- Email it to the assigned staff"
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1360,
+        -16
+      ],
+      "typeVersion": 1,
+      "id": "090f4983-b90f-4b81-b288-ab1d4a40af36",
+      "name": "Sticky Note3"
+    },
+    {
+      "parameters": {
+        "content": "## Weekly Report\n- Create weekly status report\n- Email to Preet"
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1648,
+        -16
+      ],
+      "typeVersion": 1,
+      "id": "f3f7264c-fb8e-4d90-a332-cf39a456ad94",
+      "name": "Sticky Note4"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1dK52i0ZlSfVo_9Kli8qfXMyaIHkTZaYzA6WHHkHofdM",
+          "mode": "list",
+          "cachedResultName": "Fundraising Roadmap",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1dK52i0ZlSfVo_9Kli8qfXMyaIHkTZaYzA6WHHkHofdM/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 831129022,
+          "mode": "list",
+          "cachedResultName": "Donor Moves Management Template",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1dK52i0ZlSfVo_9Kli8qfXMyaIHkTZaYzA6WHHkHofdM/edit#gid=831129022"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "Google Alerts",
+              "lookupValue": "Yes"
+            },
+            {
+              "lookupColumn": "Contact Name",
+              "lookupValue": "Binaifer Nowrojee"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -256,
+        304
+      ],
+      "id": "6db6a6a3-5350-4291-979b-3724adca8c5f",
+      "name": "Get row(s) in sheet1",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "Q2XvhORrEy3w40d3",
+          "name": "allard.prize.alerts Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "fileFolder",
+        "queryString": "={{ $json['Contact Name'] }}",
+        "filter": {
+          "whatToSearch": "files",
+          "fileTypes": [
+            "application/vnd.google-apps.document"
+          ],
+          "includeTrashed": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        -48,
+        416
+      ],
+      "id": "ffae426c-8d53-4676-90b0-6b6e0f2d06eb",
+      "name": "Search files and folders",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "xzRhLjxEd7mxOFuV",
+          "name": "allard.prize.alerts Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "filters": {
+          "labelIds": "={{ [\"Label_3176475913473801532\"] }}"
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        -48,
+        256
+      ],
+      "id": "24a7ba4f-ddd5-423f-9725-fc397e558c1e",
+      "name": "Get many messages",
+      "webhookId": "219d6737-b3ec-4615-bc13-2dfd2a7f0e54",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "KucgguEzLb7N8N2X",
+          "name": "allard.prize.alerts Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        624,
+        272
+      ],
+      "id": "24760da9-d361-44ab-b31c-9f602e95687a",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4.1-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        592,
+        448
+      ],
+      "id": "74fc3ee5-06a4-4576-8a86-e659eb454f7f",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "Fi2qHNoLoKSLDO1L",
+          "name": "preet.noor OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        720,
+        480
+      ],
+      "id": "73665ee1-5e43-4e44-b46c-d59127cd1f42",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "messageId": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Message_ID', ``, 'string') }}"
+      },
+      "type": "n8n-nodes-base.gmailTool",
+      "typeVersion": 2.1,
+      "position": [
+        848,
+        416
+      ],
+      "id": "84084ab2-f721-4bee-8d91-6e22ce0d4870",
+      "name": "Get a message in Gmail",
+      "webhookId": "030a0dd9-1edb-4e9d-89e0-382554851b58",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "KucgguEzLb7N8N2X",
+          "name": "allard.prize.alerts Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        384,
+        272
+      ],
+      "id": "d8879229-4619-4a04-8359-162c5c1af082",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Get all Gmail messages\nconst messages = $input.all();\n\n// Create a formatted context from all messages\nconst consolidatedContext = messages.map((item, index) => {\n  const msg = item.json;\n  return `\n=== MESSAGE ${index + 1} ===\nSubject: ${msg.subject || 'No subject'}\nFrom: ${msg.from || 'Unknown'}\nDate: ${msg.date || 'No date'}\n\n${msg.textPlain || msg.snippet || 'No content'}\n`;\n}).join('\\n\\n' + '='.repeat(50) + '\\n\\n');\n\n// Return a single item with the consolidated context\nreturn [{\n  json: {\n    emailContext: consolidatedContext,\n    messageCount: messages.length,\n    messages: messages.map(m => m.json) // Keep original data\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        160,
+        256
+      ],
+      "id": "aa0c1591-fc6a-4976-a20f-a8835a0c2049",
+      "name": "Consolidate Gmail Messages"
+    },
+    {
+      "parameters": {
+        "fieldsToAggregate": {
+          "fieldToAggregate": [
+            {}
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        896,
+        544
+      ],
+      "id": "40b8fd82-a571-451f-8e86-6d106f1f321c",
+      "name": "Aggregate1"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Get row(s) in sheet1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row(s) in sheet1": {
+      "main": [
+        [
+          {
+            "node": "Search files and folders",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Get many messages",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Search files and folders": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get many messages": {
+      "main": [
+        [
+          {
+            "node": "Consolidate Gmail Messages",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get a message in Gmail": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Consolidate Gmail Messages": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "9f172687-d723-4712-b977-ffa337e4621c",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "7ba6f5d4833a6f6f344686615dd2e1aab1cbf35de8cb23ade7b7692d49d12292"
+  },
+  "id": "q7KQtkFg5X5cxI0Z",
+  "tags": []
+}

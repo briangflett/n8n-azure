@@ -1,0 +1,24 @@
+{
+  "name": "n8n-azure",
+  "version": "1.0.0",
+  "description": "Welcome to the comprehensive guide for deploying n8n (a powerful workflow automation platform) on Azure Container Apps using Azure Linux. This tutorial will walk you through every step of the process, from prerequisites to a fully functional n8n deployment.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/oriziv5/n8n-azure.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/oriziv5/n8n-azure/issues"
+  },
+  "homepage": "https://github.com/oriziv5/n8n-azure#readme",
+  "dependencies": {
+    "puppeteer": "^24.29.0"
+  }
+}

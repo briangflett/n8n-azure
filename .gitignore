@@ -1,0 +1,60 @@
+# Node.js dependencies
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+yarn.lock
+
+# Environment variables and secrets
+.env
+.env.local
+.env.*.local
+*.env
+
+# Azure CLI cache and credentials
+.azure/
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Logs
+logs/
+*.log
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+
+# Build outputs
+dist/
+build/
+*.tar.gz
+
+# Docker volumes and data
+data/
+volumes/
+
+# OS files
+Thumbs.db
+.DS_Store
+
+# Backup files
+*.bak
+*.backup
+
+# Keep these important files
+!.gitignore
+!CLAUDE.md
+!CHANGELOG.md
+!README.md
+!*.sh
+!Dockerfile*
+!docker-compose*.yml
+!workflows/
