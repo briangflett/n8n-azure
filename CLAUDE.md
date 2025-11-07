@@ -12,6 +12,48 @@ This directory contains the infrastructure-as-code deployment for **n8n workflow
 
 ---
 
+## Security and Local Development
+
+### Local Secrets Directory (`.claude/`)
+
+**CRITICAL**: Never commit secrets to GitHub. Use the `.claude/` directory for local sensitive information.
+
+**Directory Structure**:
+```
+.claude/
+├── secrets.env              # Local environment variables (passwords, tokens)
+├── azure-credentials.json   # Azure service principal credentials (if needed)
+├── notes.md                 # Private deployment notes, passwords, etc.
+└── backups/                 # Local backup of Key Vault secrets
+```
+
+**Usage Example** (`.claude/secrets.env`):
+```bash
+# Retrieved from Azure Key Vault for local reference
+N8N_ADMIN_PASSWORD="<password-from-keyvault>"
+N8N_DB_PASSWORD="<password-from-keyvault>"
+N8N_ENCRYPTION_KEY="<key-from-keyvault>"
+
+# Local development overrides
+LOCAL_DB_HOST="localhost"
+LOCAL_N8N_PORT="5678"
+```
+
+**Retrieving Secrets from Key Vault**:
+```bash
+# Create .claude directory
+mkdir -p .claude/backups
+
+# Export all secrets to local file (for reference only)
+az keyvault secret show --vault-name mas-n8n-kv --name N8N-Admin-Password --query "value" -o tsv > .claude/backups/admin-password.txt
+az keyvault secret show --vault-name mas-n8n-kv --name N8N-DB-Password --query "value" -o tsv > .claude/backups/db-password.txt
+az keyvault secret show --vault-name mas-n8n-kv --name N8N-Encryption-Key --query "value" -o tsv > .claude/backups/encryption-key.txt
+```
+
+**⚠️ Important**: The `.claude/` directory is in `.gitignore` and will never be committed to version control.
+
+---
+
 ## Azure Resources Deployed
 
 ### Resource Group: `mas-n8n-rg`
@@ -767,6 +809,7 @@ Ask Claude:
 | 2025-08-20 | 1.0 | Initial deployment, custom domain configured | brian.flett@masadvise.org |
 | 2025-11-06 | 1.1 | Documentation created (CLAUDE.md) | Claude Code Assistant |
 | 2025-11-06 | 1.2 | OAuth URL configuration fix, database password sync, environment variable management documentation | Claude Code Assistant |
+| 2025-11-07 | 1.3 | Security hardening: removed hardcoded credentials, added `.claude/` directory for local secrets, updated `.gitignore` | Claude Code Assistant |
 
 ---
 

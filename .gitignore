@@ -15,6 +15,16 @@ yarn.lock
 # Azure CLI cache and credentials
 .azure/
 
+# Local secrets and sensitive data (never commit)
+.claude/
+.secrets/
+secrets/
+*.secret
+*.key
+*.pem
+*.pfx
+*.p12
+
 # IDE and editor files
 .vscode/
 .idea/
