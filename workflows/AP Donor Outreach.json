@@ -165,7 +165,7 @@
         "operation": "getAll",
         "simple": false,
         "filters": {
-          "labelIds": "={{ [\"Label_3176475913473801532\"] }}"
+          "labelIds": "={{ [\"Label_3176475913473801532\", \"INBOX\"] }}"
         },
         "options": {}
       },
@@ -370,8 +370,21 @@
     },
     {
       "parameters": {
+        "jsCode": "// Get message IDs from the aggregated data\nconst aggregatedData = $('Aggregate1').item.json.data;\n\n// Return each message ID as a separate item\nreturn aggregatedData.map(msg => ({\n  json: {\n    id: msg.id\n  }\n}));"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        672,
+        288
+      ],
+      "id": "e1g7f4e5-0d6e-5g8f-1f9g-4567890123de",
+      "name": "Get Message IDs"
+    },
+    {
+      "parameters": {
         "operation": "removeLabels",
-        "messageId": "={{ $('Get many messages').item.json.id }}",
+        "messageId": "={{ $json.id }}",
         "labelIds": [
           "INBOX"
         ],
@@ -380,7 +393,7 @@
       "type": "n8n-nodes-base.gmail",
       "typeVersion": 2.1,
       "position": [
-        672,
+        880,
         288
       ],
       "id": "d0f6e3d4-9c5d-4f7e-0e8f-3456789012cd",
@@ -501,6 +514,17 @@
       ]
     },
     "Send a message": {
+      "main": [
+        [
+          {
+            "node": "Get Message IDs",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Message IDs": {
       "main": [
         [
           {
