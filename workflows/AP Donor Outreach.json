@@ -12,40 +12,40 @@
       "type": "n8n-nodes-base.scheduleTrigger",
       "typeVersion": 1.2,
       "position": [
-        -496,
-        304
+        -1568,
+        320
       ],
-      "id": "1ffcf5f9-5916-4ddf-a769-e2542704decd",
+      "id": "6cd60dfb-486b-4aab-8caf-c83f4ba2cc16",
       "name": "Schedule Trigger"
     },
     {
       "parameters": {
         "content": "## Collect Inputs \n- Read CRM\n   - Fundraising Roadmap Google Sheets\n   - All rows with Google Alerts = Yes\n- Read GMail\n   - All Google Alerts\n   - Tagged with the name from the CRM row - need to convert label to ID\n- Read prospect dossiers\n   - All Google Docs with the name from the CRM row",
-        "height": 624,
+        "height": 704,
         "width": 816
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        -320,
-        0
+        -1392,
+        16
       ],
       "typeVersion": 1,
-      "id": "f464ad6d-b64d-42e6-a99e-3cf42dfc2989",
+      "id": "ed509f46-3dda-4b9f-a593-788aacc25c0a",
       "name": "Sticky Note"
     },
     {
       "parameters": {
         "content": "## Identify Actions \n- Identify potential actions to take based on inputs\n- Group and prioritize them.",
-        "height": 640,
-        "width": 464
+        "height": 704,
+        "width": 480
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        560,
-        0
+        -528,
+        16
       ],
       "typeVersion": 1,
-      "id": "35cc6939-b811-4417-9730-995211ff7a27",
+      "id": "0a533e15-92d2-4f12-be11-f1052dade8dc",
       "name": "Sticky Note1"
     },
     {
@@ -54,11 +54,11 @@
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        1072,
-        -16
+        0,
+        16
       ],
       "typeVersion": 1,
-      "id": "8ed9936c-d55b-4a95-928d-658677e92a17",
+      "id": "990aed21-2508-42ee-b41c-1dcba9cee6ee",
       "name": "Sticky Note2"
     },
     {
@@ -67,11 +67,11 @@
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        1360,
-        -16
+        304,
+        16
       ],
       "typeVersion": 1,
-      "id": "090f4983-b90f-4b81-b288-ab1d4a40af36",
+      "id": "9a5dd1e8-fafe-4076-b293-cc690af26315",
       "name": "Sticky Note3"
     },
     {
@@ -80,11 +80,11 @@
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        1648,
-        -16
+        592,
+        16
       ],
       "typeVersion": 1,
-      "id": "f3f7264c-fb8e-4d90-a332-cf39a456ad94",
+      "id": "5648a141-e644-4323-9fa9-88bae299fb99",
       "name": "Sticky Note4"
     },
     {
@@ -120,10 +120,10 @@
       "type": "n8n-nodes-base.googleSheets",
       "typeVersion": 4.7,
       "position": [
-        -256,
-        304
+        -1328,
+        320
       ],
-      "id": "6db6a6a3-5350-4291-979b-3724adca8c5f",
+      "id": "4da8382a-5d31-45dc-9bc0-c3869ecca0f9",
       "name": "Get row(s) in sheet1",
       "credentials": {
         "googleSheetsOAuth2Api": {
@@ -148,10 +148,10 @@
       "type": "n8n-nodes-base.googleDrive",
       "typeVersion": 3,
       "position": [
-        -48,
-        416
+        -1120,
+        432
       ],
-      "id": "ffae426c-8d53-4676-90b0-6b6e0f2d06eb",
+      "id": "30c21b78-ca5a-4059-8e25-271f52c1675d",
       "name": "Search files and folders",
       "credentials": {
         "googleDriveOAuth2Api": {
@@ -163,17 +163,19 @@
     {
       "parameters": {
         "operation": "getAll",
+        "simple": false,
         "filters": {
           "labelIds": "={{ [\"Label_3176475913473801532\"] }}"
-        }
+        },
+        "options": {}
       },
       "type": "n8n-nodes-base.gmail",
       "typeVersion": 2.1,
       "position": [
-        -48,
-        256
+        -1120,
+        272
       ],
-      "id": "24a7ba4f-ddd5-423f-9725-fc397e558c1e",
+      "id": "a0712ce6-8f30-4aae-9e40-e025b77522be",
       "name": "Get many messages",
       "webhookId": "219d6737-b3ec-4615-bc13-2dfd2a7f0e54",
       "credentials": {
@@ -182,20 +184,6 @@
           "name": "allard.prize.alerts Gmail account"
         }
       }
-    },
-    {
-      "parameters": {
-        "promptType": "define",
-        "options": {}
-      },
-      "type": "@n8n/n8n-nodes-langchain.agent",
-      "typeVersion": 2.2,
-      "position": [
-        624,
-        272
-      ],
-      "id": "24760da9-d361-44ab-b31c-9f602e95687a",
-      "name": "AI Agent"
     },
     {
       "parameters": {
@@ -209,10 +197,10 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
       "typeVersion": 1.2,
       "position": [
-        592,
-        448
+        -480,
+        464
       ],
-      "id": "74fc3ee5-06a4-4576-8a86-e659eb454f7f",
+      "id": "eda3cf7f-e33a-421a-9b7a-61df7cb5059b",
       "name": "OpenAI Chat Model",
       "credentials": {
         "openAiApi": {
@@ -222,30 +210,157 @@
       }
     },
     {
-      "parameters": {},
-      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
-      "typeVersion": 1.3,
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
       "position": [
-        720,
-        480
+        -784,
+        272
       ],
-      "id": "73665ee1-5e43-4e44-b46c-d59127cd1f42",
-      "name": "Simple Memory"
+      "id": "5648479d-0bf9-484b-9c21-dd5630a60356",
+      "name": "Aggregate1"
+    },
+    {
+      "parameters": {
+        "content": "## Donor Outreach High Level Spec\n\n### Objective\nThe purpose of the Donor Outreach workflow is to monitor web activity on a regular basis, and to use this information to assign various staff to do regular outreach communication with potential donors to move them along the donor lifecycle from initial engagement through to ongoing sustainment.\n\n### Setup Already Competed\n- Set up Google Alerts to send emails to allard.prize.alerts@gmail.com\n- Set up Gmail Filters to tag emails with the name of the contact to which they apply\n- Set up Google Sheet (Fundraising Roadmap) to simulate a CRM with\n   - list of contacts\n   - who has alerts set up \n   - ID's of the Gmail labels\n   - Location, organization, and moves (points of contact)\n- Set up Google Docs to provide background dossiers on each contact \n\n### Current Strategy\n- On a weekly basis, read the alert emails, determine if any outreach is necessary, and if so, send an email to the staff person with a draft of the email to be sent or key points for the phone conversation.  To start, all these emails will be sent to Preet.\n\n### Next Steps\n- Create engagement templates for the four touchpoint types: congratulatory email template (\"Saw your talk at [Event]—powerful framing on [Topic]\"), collaborative invitation template (\"We're convening a session on [Theme]; would love your input\"), intellectual sharing template (\"Your organization's new report aligns with our work on [Topic]\"), network-based introduction template (\"We're connected through [Mutual Contact]; would you be open to [Meeting/Call]?\").\n- assign specific outreach tasks with deadlines, and tracks completion of prior week's actions\n- provide a weekly status report",
+        "height": 640,
+        "width": 1232,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -1632,
+        -672
+      ],
+      "typeVersion": 1,
+      "id": "003ebd27-e67b-4f45-b1ff-36ed9f26c445",
+      "name": "Sticky Note5"
     },
     {
       "parameters": {
         "operation": "get",
-        "messageId": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Message_ID', ``, 'string') }}"
+        "documentURL": "={{ $json.id }}"
       },
-      "type": "n8n-nodes-base.gmailTool",
+      "type": "n8n-nodes-base.googleDocs",
+      "typeVersion": 2,
+      "position": [
+        -960,
+        432
+      ],
+      "id": "f96821d6-aebe-452c-af73-661ddb3ed888",
+      "name": "Get a document",
+      "credentials": {
+        "googleDocsOAuth2Api": {
+          "id": "65EpDb2siyU0S6Vw",
+          "name": "allard.prize.alerts Google Docs account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Given these recent alerts\n<alerts>\n{{ $json.data.toJsonString() }}\n</alerts>\n\nand the background context in this dossier\n<dossier>\nid: {{ $json.documentId }}\ncontent:  {{ $json.content }}\n</dossier>\n\ndetermine if allard prize should reach out and contact {{ $('Get row(s) in sheet1').item.json['Contact Name'] }} with an email or phone call to help move them along the journey to become a sustained donor to allard prize.  \n\nPrevious emails or phone calls (called moves) are \n<moves>{{ $('Get row(s) in sheet1').item.json['Move #1'] }}{{ $('Get row(s) in sheet1').item.json['Move #2'] }}{{ $('Get row(s) in sheet1').item.json['Move #3'] }}{{ $('Get row(s) in sheet1').item.json['Move #4'] }}{{ $('Get row(s) in sheet1').item.json['Move #5'] }}{{ $('Get row(s) in sheet1').item.json['Move #6'] }}\n{{ $('Get row(s) in sheet1').item.json['Move #7'] }}{{ $('Get row(s) in sheet1').item.json['Move #8'] }}{{ $('Get row(s) in sheet1').item.json['Move #9'] }}{{ $('Get row(s) in sheet1').item.json['Move #10'] }}\n</moves>\n\nThe next step is {{ $('Get row(s) in sheet1').item.json['Next steps'] }}, and some links are {{ $('Get row(s) in sheet1').item.json.Links }}.\n\nReturn a summary of the alerts, the recommendation on what action to take, and an initial draft if an action is recommended.",
+        "options": {
+          "systemMessage": "You are a fundraising advisor to allard prize, and a helpful assistant"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        -448,
+        288
+      ],
+      "id": "d9f262c2-7915-414f-998b-e9c55421268b",
+      "name": "AI Agent - Identify Actions"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "007ddc6e-4107-43e9-a0e0-91afaa323199",
+              "name": "id",
+              "value": "={{ $json.id }}",
+              "type": "string"
+            },
+            {
+              "id": "d18455c3-b9c0-47bd-8786-57de4f7654e6",
+              "name": "date",
+              "value": "={{ $json.date }}",
+              "type": "string"
+            },
+            {
+              "id": "d5660221-d83d-416d-bceb-5dac6a2d3896",
+              "name": "subject",
+              "value": "={{ $json.subject }}",
+              "type": "string"
+            },
+            {
+              "id": "bb801d91-a252-491f-a15c-bba5ada40bf0",
+              "name": "textAsHtml",
+              "value": "={{ $json.textAsHtml }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -960,
+        272
+      ],
+      "id": "d97c5ab7-dcec-4084-be91-4719e45a30b0",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineByPosition",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        -624,
+        352
+      ],
+      "id": "400813c9-507c-4f81-907b-d8129d59b9cb",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Convert AI output to HTML-formatted email\nconst aiOutput = $input.item.json.output;\n\n// Replace \\n with <br> tags for HTML line breaks\nconst htmlFormatted = aiOutput.replace(/\\n/g, '<br>');\n\n// Wrap in basic HTML structure for better rendering\nconst emailBody = `\n<html>\n<body style=\"font-family: Arial, sans-serif; line-height: 1.6; color: #333;\">\n${htmlFormatted}\n</body>\n</html>\n`;\n\nreturn {\n  json: {\n    formattedOutput: emailBody,\n    originalOutput: aiOutput\n  }\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        64,
+        288
+      ],
+      "id": "b8f3e4d1-9a2c-4f5e-8e6d-1234567890ab",
+      "name": "Format Email for HTML"
+    },
+    {
+      "parameters": {
+        "sendTo": "brian.g.flett@gmail.com",
+        "subject": "=Example of AI generated outreach for {{ $('Get row(s) in sheet1').item.json['Contact Name'] }}",
+        "message": "={{ $json.formattedOutput }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
       "typeVersion": 2.1,
       "position": [
-        848,
-        416
+        464,
+        288
       ],
-      "id": "84084ab2-f721-4bee-8d91-6e22ce0d4870",
-      "name": "Get a message in Gmail",
-      "webhookId": "030a0dd9-1edb-4e9d-89e0-382554851b58",
+      "id": "ae1a7fb6-27d3-48c6-9443-d43fc81dba64",
+      "name": "Send a message",
+      "webhookId": "4fe50f61-cf1c-45bc-b5aa-87a50ed86439",
       "credentials": {
         "gmailOAuth2": {
           "id": "KucgguEzLb7N8N2X",
@@ -254,46 +369,29 @@
       }
     },
     {
-      "parameters": {},
-      "type": "n8n-nodes-base.merge",
-      "typeVersion": 3.2,
-      "position": [
-        384,
-        272
-      ],
-      "id": "d8879229-4619-4a04-8359-162c5c1af082",
-      "name": "Merge"
-    },
-    {
       "parameters": {
-        "jsCode": "// Get all Gmail messages\nconst messages = $input.all();\n\n// Create a formatted context from all messages\nconst consolidatedContext = messages.map((item, index) => {\n  const msg = item.json;\n  return `\n=== MESSAGE ${index + 1} ===\nSubject: ${msg.subject || 'No subject'}\nFrom: ${msg.from || 'Unknown'}\nDate: ${msg.date || 'No date'}\n\n${msg.textPlain || msg.snippet || 'No content'}\n`;\n}).join('\\n\\n' + '='.repeat(50) + '\\n\\n');\n\n// Return a single item with the consolidated context\nreturn [{\n  json: {\n    emailContext: consolidatedContext,\n    messageCount: messages.length,\n    messages: messages.map(m => m.json) // Keep original data\n  }\n}];"
-      },
-      "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
-      "position": [
-        160,
-        256
-      ],
-      "id": "aa0c1591-fc6a-4976-a20f-a8835a0c2049",
-      "name": "Consolidate Gmail Messages"
-    },
-    {
-      "parameters": {
-        "fieldsToAggregate": {
-          "fieldToAggregate": [
-            {}
-          ]
-        },
+        "operation": "removeLabels",
+        "messageId": "={{ $('Get many messages').item.json.id }}",
+        "labelIds": [
+          "INBOX"
+        ],
         "options": {}
       },
-      "type": "n8n-nodes-base.aggregate",
-      "typeVersion": 1,
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
       "position": [
-        896,
-        544
+        672,
+        288
       ],
-      "id": "40b8fd82-a571-451f-8e86-6d106f1f321c",
-      "name": "Aggregate1"
+      "id": "d0f6e3d4-9c5d-4f7e-0e8f-3456789012cd",
+      "name": "Archive Messages",
+      "webhookId": "329e7848-c2fd-45bc-b6aa-98a61fd95550",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "KucgguEzLb7N8N2X",
+          "name": "allard.prize.alerts Gmail account"
+        }
+      }
     }
   ],
   "pinData": {},
@@ -329,9 +427,9 @@
       "main": [
         [
           {
-            "node": "Merge",
+            "node": "Get a document",
             "type": "main",
-            "index": 1
+            "index": 0
           }
         ]
       ]
@@ -340,7 +438,7 @@
       "ai_languageModel": [
         [
           {
-            "node": "AI Agent",
+            "node": "AI Agent - Identify Actions",
             "type": "ai_languageModel",
             "index": 0
           }
@@ -351,36 +449,14 @@
       "main": [
         [
           {
-            "node": "Consolidate Gmail Messages",
+            "node": "Edit Fields",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Simple Memory": {
-      "ai_memory": [
-        [
-          {
-            "node": "AI Agent",
-            "type": "ai_memory",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Get a message in Gmail": {
-      "ai_tool": [
-        [
-          {
-            "node": "AI Agent",
-            "type": "ai_tool",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Consolidate Gmail Messages": {
+    "Aggregate1": {
       "main": [
         [
           {
@@ -391,11 +467,66 @@
         ]
       ]
     },
+    "Get a document": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "AI Agent - Identify Actions": {
+      "main": [
+        [
+          {
+            "node": "Format Email for HTML",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Format Email for HTML": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a message": {
+      "main": [
+        [
+          {
+            "node": "Archive Messages",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Aggregate1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
     "Merge": {
       "main": [
         [
           {
-            "node": "AI Agent",
+            "node": "AI Agent - Identify Actions",
             "type": "main",
             "index": 0
           }
@@ -407,11 +538,11 @@
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "9f172687-d723-4712-b977-ffa337e4621c",
+  "versionId": "6943fe55-017e-4594-b8cc-8bb1fa96a01b",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "7ba6f5d4833a6f6f344686615dd2e1aab1cbf35de8cb23ade7b7692d49d12292"
   },
-  "id": "q7KQtkFg5X5cxI0Z",
+  "id": "drEVKzhM8SAUTJn3",
   "tags": []
 }
