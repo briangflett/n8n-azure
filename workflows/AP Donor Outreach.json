@@ -108,10 +108,6 @@
             {
               "lookupColumn": "Google Alerts",
               "lookupValue": "Yes"
-            },
-            {
-              "lookupColumn": "Contact Name",
-              "lookupValue": "Binaifer Nowrojee"
             }
           ]
         },
@@ -162,10 +158,60 @@
     },
     {
       "parameters": {
+        "resource": "label",
+        "operation": "getAll",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        -1328,
+        160
+      ],
+      "id": "f2h8g5f6-1e7f-6h9g-2g0h-5678901234ef",
+      "name": "Get Gmail Labels",
+      "webhookId": "440f8949-d3fe-46cd-c7ab-09b72ge06661",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "KucgguEzLb7N8N2X",
+          "name": "allard.prize.alerts Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineAll",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        -1120,
+        160
+      ],
+      "id": "g3i9h6g7-2f8g-7i0h-3h1i-6789012345fg",
+      "name": "Merge Contact with Labels"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Get contact name from Google Sheets (from input 1)\nconst contactName = $input.item.json['Contact Name'];\n\n// Get all Gmail labels (from input 2 via merge)\n// When using combineAll, the labels array is in the merged data\nconst allLabels = $('Get Gmail Labels').item.json.labels;\n\n// Find the label that matches the contact name\nconst matchingLabel = allLabels.find(label => label.name === contactName);\n\nif (!matchingLabel) {\n  throw new Error(`No Gmail label found for contact: ${contactName}`);\n}\n\n// Return the original contact data plus the label ID\nreturn {\n  json: {\n    ...($input.item.json),\n    contactLabelId: matchingLabel.id\n  }\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -960,
+        160
+      ],
+      "id": "h4j0i7h8-3g9h-8j1i-4i2j-7890123456gh",
+      "name": "Find Contact Label ID"
+    },
+    {
+      "parameters": {
         "operation": "getAll",
         "simple": false,
         "filters": {
-          "labelIds": "={{ [\"Label_3176475913473801532\", \"INBOX\"] }}"
+          "labelIds": "={{ [$('Find Contact Label ID').item.json.contactLabelId, 'INBOX'] }}"
         },
         "options": {}
       },
@@ -428,6 +474,44 @@
             "type": "main",
             "index": 0
           },
+          {
+            "node": "Get Gmail Labels",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Merge Contact with Labels",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Gmail Labels": {
+      "main": [
+        [
+          {
+            "node": "Merge Contact with Labels",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Merge Contact with Labels": {
+      "main": [
+        [
+          {
+            "node": "Find Contact Label ID",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Find Contact Label ID": {
+      "main": [
+        [
           {
             "node": "Get many messages",
             "type": "main",
