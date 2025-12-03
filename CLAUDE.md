@@ -810,6 +810,7 @@ Ask Claude:
 | 2025-11-06 | 1.1 | Documentation created (CLAUDE.md) | Claude Code Assistant |
 | 2025-11-06 | 1.2 | OAuth URL configuration fix, database password sync, environment variable management documentation | Claude Code Assistant |
 | 2025-11-07 | 1.3 | Security hardening: removed hardcoded credentials, added `.claude/` directory for local secrets, updated `.gitignore` | Claude Code Assistant |
+| 2025-12-03 | 1.4 | Workflow repositories separation: created n8n-ap-workflows and n8n-brian-workflows repositories | Claude Code Assistant |
 
 ---
 
@@ -909,120 +910,44 @@ az containerapp update --name mas-n8n-app --resource-group mas-n8n-rg \
 
 ---
 
-## Workflow Development with Claude Code
+## Workflow Repositories
 
-### Workflow Files Location
-n8n workflows are stored as JSON files in:
-```
-/home/brian/workspace/docker/development/n8n-azure/workflows/
-```
+n8n workflows are maintained in separate repositories for better organization:
 
-### Collaborative Workflow Development Process
+### Allard Prize Workflows
+**Location**: `/home/brian/workspace/docker/development/n8n-ap-workflows/`
+**Repository**: https://github.com/briangflett/n8n-ap-workflows (private)
+**Purpose**: Business workflows for Allard Prize organization
 
-**Step 1: Open the Workflow File**
-Open the workflow JSON file in VS Code from the `workflows/` directory. This provides Claude with the complete workflow structure and node configuration.
+### Brian's Personal Workflows
+**Location**: `/home/brian/workspace/docker/development/n8n-brian-workflows/`
+**Repository**: https://github.com/briangflett/n8n-brian-workflows (private)
+**Purpose**: Personal automation and experimentation
 
-**Step 2: Describe Your Challenge**
-Tell Claude what you're trying to accomplish or what issue you're facing. For example:
-- "I need to consolidate multiple Gmail messages into a single context for OpenAI"
-- "How do I transform this data before sending it to the next node?"
-- "I'm getting multiple items but need just one"
-
-**Step 3: Claude Analyzes the Workflow**
-Claude will:
-1. Read the workflow JSON file to understand the current structure
-2. Identify the relevant nodes and connections
-3. Understand the data flow between nodes
-4. Recognize the issue or optimization opportunity
-
-**Step 4: Claude Provides Solutions**
-Claude will suggest solutions with:
-- Specific node types to use (Code, Aggregate, Function, etc.)
-- Exact JavaScript/expression code for the solution
-- Explanation of how data flows through the solution
-- Examples of how to reference the data in downstream nodes
-
-**Step 5: Claude Updates the Workflow File**
-When you approve the solution, Claude can directly edit the workflow JSON file to:
-- Add new nodes with proper configuration
-- Update node parameters (like JavaScript code)
-- Fix connections between nodes
-- Rename nodes for clarity
-
-**Step 6: Test in n8n**
-After Claude updates the file:
-1. Reload the workflow in n8n (the changes will appear automatically)
-2. Test the workflow execution
-3. Verify the data transformation worked as expected
-
-### Example Session
-
-**User**: "I have a Gmail node that returns multiple messages. I need to consolidate them into one formatted prompt for OpenAI."
-
-**Claude**:
-1. Reads the workflow JSON file
-2. Identifies the Gmail node and its output structure
-3. Suggests adding a Code node with consolidation logic
-4. Provides the exact JavaScript code to consolidate messages
-5. Updates the workflow JSON file directly
-6. Explains how to reference the consolidated data in the AI Agent
-
-**Result**: Workflow updated, ready to test immediately in n8n.
-
-### Best Practices for Workflow Development with Claude
-
-1. **Always open the workflow file first** - This gives Claude complete context
-2. **Be specific about your goal** - Describe what data you have and what you need
-3. **Share error messages** - If something isn't working, share the execution error
-4. **Ask about data structure** - Claude can explain what data is available at each node
-5. **Request explanations** - Ask Claude to explain how the solution works
-6. **Iterate quickly** - Make small changes, test, then ask for next improvement
-
-### Common Workflow Patterns Claude Can Help With
-
-**Data Consolidation**:
-- Combine multiple items into one
-- Aggregate data across items
-- Create formatted summaries
-
-**Data Transformation**:
-- Extract specific fields from complex objects
-- Reformat data for API calls
-- Convert between data structures
-
-**Conditional Logic**:
-- Route data based on conditions
-- Filter items by criteria
-- Handle different data scenarios
-
-**API Integration**:
-- Format requests for external APIs
-- Parse and transform API responses
-- Handle authentication and headers
-
-**Error Handling**:
-- Add fallback logic
-- Validate data before processing
-- Handle missing or malformed data
-
-### Advantages of This Approach
-
-✅ **Fast iteration** - No need to manually edit complex JSON
-✅ **Accurate configuration** - Claude generates proper n8n node structure
-✅ **Best practices** - Claude suggests optimal node types and patterns
-✅ **Documentation** - Solutions are explained clearly
-✅ **Version control** - Workflow files can be committed to git
-✅ **No context switching** - Stay in VS Code, Claude updates files directly
-
-### Tips for Success
-
-- **Keep workflows in git** - Track changes to workflow files
-- **Name nodes clearly** - Use descriptive names like "Consolidate Gmail Messages"
-- **Test incrementally** - Test each change before adding more complexity
-- **Ask for explanations** - Understand the solution, don't just copy it
-- **Share sample data** - Show Claude example input/output if possible
+**Note**: Both workflow repositories use the same n8n instance (https://n8n.masadvise.org). The separation is organizational only.
 
 ---
 
-**Last Updated**: November 7, 2025
+## Workflow Development with Claude Code
+
+For detailed guidance on developing workflows with Claude Code, see:
+- [n8n-ap-workflows CLAUDE.md](../n8n-ap-workflows/CLAUDE.md)
+- [n8n-brian-workflows CLAUDE.md](../n8n-brian-workflows/CLAUDE.md)
+
+### Quick Start for Workflow Development
+
+See the dedicated workflow repository documentation for complete guidance on collaborative development with Claude:
+- **Allard Prize**: [n8n-ap-workflows/CLAUDE.md](../n8n-ap-workflows/CLAUDE.md)
+- **Personal**: [n8n-brian-workflows/CLAUDE.md](../n8n-brian-workflows/CLAUDE.md)
+
+**Brief Overview**:
+1. Open workflow JSON file in VS Code
+2. Describe your challenge to Claude
+3. Claude analyzes and suggests solutions
+4. Claude can directly edit workflow files
+5. Import updated workflow to n8n and test
+
+---
+
+**Last Updated**: December 3, 2025
 **Documentation Maintained By**: Claude Code Assistant for MAS Advise Inc.
