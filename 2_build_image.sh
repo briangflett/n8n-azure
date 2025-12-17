@@ -2,11 +2,11 @@
 echo "[$(date)] Starting Azure Container Registry build script..."
 
 # Required Configuration Variables
-ACR_NAME="mypersonalacr"  # Change to your Azure Container Registry name
-IMAGE_NAME="n8n-azure-linux-main-test"  # Change to your desired image name
-RESOURCE_GROUP="n8n-rg-northeurope-linux"  # Change to your resource group name
-LOCATION="northeurope"  # Change to your desired Azure region
-DOCKERFILE_PATH="Dockerfile.azurelinux"  # Change to your Dockerfile path (default: Dockerfile)
+ACR_NAME="masbgfn8nacr"  # MAS Azure Container Registry
+IMAGE_NAME="mas-n8n-image"  # MAS n8n image name
+RESOURCE_GROUP="mas-n8n-rg"  # MAS resource group
+LOCATION="canadacentral"  # Canada Central region
+DOCKERFILE_PATH="Dockerfile.azurelinux"  # Azure Linux 3 Dockerfile
 
 # Validate required variables
 echo "[$(date)] Validating required variables..."
