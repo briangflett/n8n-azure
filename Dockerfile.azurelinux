@@ -32,7 +32,7 @@ ENV N8N_VERSION_CHECK_ENABLED=false
 ENV N8N_TEMPLATES_ENABLED=false
 ENV N8N_DISABLE_EXTERNAL_ERROR_REPORTING=true
 ENV N8N_LOG_OUTPUT="console"
-ENV N8N_SAMESITE_COOKIE="strict"
+ENV N8N_SAMESITE_COOKIE="lax"
 ENV N8N_GIT_NODE_DISABLE_BARE_REPOS=true
 
 ENV NODE_ENV=production
@@ -96,12 +96,12 @@ WORKDIR ${N8N_USER_HOME}
 # Copy any custom configuration files (if they exist)
 # COPY --chown=${N8N_USER_NAME}:${N8N_USER_NAME} config/ ${N8N_USER_HOME}/.n8n/
 
+# Copy entrypoint script that installs community nodes on startup
+COPY --chown=${N8N_USER_NAME}:${N8N_USER_NAME} docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
+RUN chmod +x /usr/local/bin/docker-entrypoint.sh
+
 # Switch to non-root user for security
 USER ${N8N_USER_NAME}
-
-# Health check to ensure n8n is running properly
-# HEALTHCHECK --interval=30s --timeout=10s --start-period=60s --retries=3 \
-#     CMD curl -f http://localhost:${N8N_PORT}/healthz || exit 1
 
 # Expose the port n8n runs on
 EXPOSE ${N8N_PORT}
@@ -112,5 +112,5 @@ VOLUME ["/data"]
 # Set data directory for n8n
 ENV N8N_USER_FOLDER=/data
 
-# Start n8n
-CMD ["n8n", "start"]
+# Start n8n via entrypoint (installs community nodes first)
+ENTRYPOINT ["docker-entrypoint.sh"]

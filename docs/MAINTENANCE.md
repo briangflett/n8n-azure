@@ -208,6 +208,95 @@ az containerapp restart --name mas-n8n-app --resource-group mas-n8n-rg
 
 ---
 
+## Community Nodes
+
+Community nodes are installed on container startup via `docker-entrypoint.sh`. This is necessary because Azure Container Apps has **ephemeral filesystem storage** - any npm packages installed at runtime (e.g., via the n8n UI) are lost when the container restarts.
+
+### How It Works
+
+1. `docker-entrypoint.sh` runs before n8n starts
+2. It checks if community node packages exist in `/data/.n8n/nodes/`
+3. If missing, it runs `npm install` to install them
+4. Then starts n8n via `exec n8n start`
+
+n8n discovers community nodes by scanning `/data/.n8n/nodes/node_modules/` for packages matching `n8n-nodes-*` or `@*/n8n-nodes-*`.
+
+### Current Community Nodes
+
+| Package | Version | Node |
+|---------|---------|------|
+| `@ixiam/n8n-nodes-civicrm` | 1.1.41 | CiviCRM |
+| `@tavily/n8n-nodes-tavily` | 0.5.1 | Tavily |
+| `n8n-nodes-mcp` | 0.1.37 | MCP Client |
+
+### Adding or Updating Community Nodes
+
+1. Edit `docker-entrypoint.sh` - update the npm install line with new packages/versions
+2. Update the existence check (`if` condition) to include the new package path
+3. Rebuild and deploy:
+   ```bash
+   cd /home/brian/workspace/deployments/azure/n8n-azure
+   az acr build --registry masbgfn8nacr --image mas-n8n-image:$(date +%Y%m%d) \
+     --file Dockerfile.azurelinux .
+   az containerapp update --name mas-n8n-app --resource-group mas-n8n-rg \
+     --image masbgfn8nacr.azurecr.io/mas-n8n-image:$(date +%Y%m%d)
+   ```
+
+### Why Not Bake Into the Dockerfile?
+
+Two approaches were tried:
+- **Dockerfile `npm install` into n8n's global directory**: Packages get hoisted by npm and n8n can't find them
+- **Dockerfile `npm install` into `/data/.n8n/nodes/`**: The `VOLUME ["/data"]` directive causes anything written during build to be lost when the volume is mounted at runtime
+
+The entrypoint script approach works because it runs **after** the volume is mounted.
+
+### Troubleshooting Community Nodes
+
+If nodes show warning triangles in the UI or logs show "Unrecognized node type":
+
+```bash
+# Check if entrypoint ran successfully
+az containerapp logs show --name mas-n8n-app --resource-group mas-n8n-rg --tail 50
+
+# Look for "Installing community nodes..." and "Community nodes installed successfully."
+# If not present, the entrypoint may have failed
+```
+
+---
+
+## Building and Deploying Images
+
+### Build Process
+
+WSL doesn't have Docker Desktop, so use Azure Container Registry cloud builds:
+
+```bash
+cd /home/brian/workspace/deployments/azure/n8n-azure
+
+# Build with a date-based tag
+az acr build --registry masbgfn8nacr \
+  --image mas-n8n-image:$(date +%Y%m%d) \
+  --file Dockerfile.azurelinux .
+```
+
+### Deploy Process
+
+```bash
+# Deploy the new image (use the same tag from the build step)
+az containerapp update --name mas-n8n-app --resource-group mas-n8n-rg \
+  --image masbgfn8nacr.azurecr.io/mas-n8n-image:TAG
+
+# Verify new revision is running
+az containerapp revision list --name mas-n8n-app --resource-group mas-n8n-rg \
+  --query "[?properties.active].{name:name, created:properties.createdTime, image:properties.template.containers[0].image}" -o table
+```
+
+### Image Tagging
+
+**Always use a unique tag** (e.g., date-based like `20260223`). Using `:latest` alone will **not trigger a new revision** because Azure Container Apps only creates a new revision when the image reference string changes. If the tag is always `:latest`, Azure sees no change and keeps the old revision running.
+
+---
+
 ## Updating n8n Version
 
 ### Standard Update Process

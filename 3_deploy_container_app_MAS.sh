@@ -1215,7 +1215,8 @@ az containerapp update \
         N8N_DISABLE_EXTERNAL_ERROR_REPORTING=false \
         N8N_LOG_OUTPUT="console" \
         N8N_EDITOR_BASE_URL="https://${N8N_DOMAIN}/" \
-        WEBHOOK_URL="https://${N8N_DOMAIN}/"
+        WEBHOOK_URL="https://${N8N_DOMAIN}/" \
+        N8N_SKIP_AUTH_ON_OAUTH_CALLBACK=true
 
 if [[ $? -eq 0 ]]; then
     log_message "✅ Container App environment variables updated successfully."
