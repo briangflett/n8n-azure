@@ -9,7 +9,7 @@ LABEL org.opencontainers.image.vendor="Azure Linux"
 LABEL org.opencontainers.image.version="1.0"
 
 # Set environment variables for n8n configuration
-ENV N8N_VERSION=latest
+ENV N8N_VERSION=2.11.4
 ENV N8N_USER_ID=1000
 ENV N8N_USER_GROUP=1000
 ENV N8N_USER_NAME=n8n
@@ -36,7 +36,7 @@ ENV N8N_SAMESITE_COOKIE="lax"
 ENV N8N_GIT_NODE_DISABLE_BARE_REPOS=true
 
 ENV NODE_ENV=production
-ENV NODE_VERSION=24.9.0
+ENV NODE_VERSION=24.14.0
 ENV TZ=UTC
 
 

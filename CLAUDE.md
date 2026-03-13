@@ -6,7 +6,7 @@
 
 - **URL**: https://n8n.masadvise.org
 - **Resource Group**: `mas-n8n-rg` (Canada Central)
-- **Version**: n8n 2.7.4 on Azure Linux 3 + Node.js 24
+- **Version**: n8n 2.11.4 on Azure Linux 3 + Node.js 24
 
 ## Azure Resources
 
