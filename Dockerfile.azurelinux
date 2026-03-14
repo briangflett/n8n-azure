@@ -48,6 +48,13 @@ RUN tdnf update -y && \
         shadow-utils \
         ca-certificates \
         tar \
+        python3 \
+        make \
+        gcc \
+        gcc-c++ \
+        glibc-devel \
+        kernel-headers \
+        binutils \
         && \
     tdnf clean all
 
