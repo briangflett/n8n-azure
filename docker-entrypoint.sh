@@ -17,9 +17,16 @@ if [ ! -d "$NODES_DIR/node_modules/@ixiam/n8n-nodes-civicrm" ] || \
         @tavily/n8n-nodes-tavily@0.5.1 \
         n8n-nodes-mcp@0.1.37 \
         --bin-links=false \
-        --package-lock=false
+        --package-lock=false \
+        --ignore-scripts
+    # Remove isolated-vm from community nodes - its native addon
+    # is incompatible with Node.js 24 and crashes n8n on startup.
+    # n8n has its own isolated-vm bundled with the main package.
+    rm -rf "$NODES_DIR/node_modules/isolated-vm"
     echo "Community nodes installed successfully."
 else
+    # Also clean up isolated-vm from any previous installs
+    rm -rf "$NODES_DIR/node_modules/isolated-vm"
     echo "Community nodes already installed."
 fi
 
