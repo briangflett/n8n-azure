@@ -66,10 +66,13 @@ az containerapp update --name mas-n8n-app --resource-group mas-n8n-rg \
 
 ---
 
-## Klaus Integration
+## Session Lifecycle
 
-This project uses Klaus for session persistence, memory, and task tracking. Klaus capabilities are provided via the globally available `klaus-workflows` skill and MCP servers. Private project context (workflow IDs, session protocol) is maintained in the claude.ai web project settings.
+- **Start**: `/bootstrap` (loads Klaus context, checks pending handoffs)
+- **End**: `/wrapup` (logs summary, updates SESSIONS, handles handoffs, checks git)
+
+Klaus capabilities are provided via the globally available `klaus-workflows`, `bootstrap`, and `wrapup` skills.
 
 ---
 
-**Last Updated**: 2026-02-26
+**Last Updated**: 2026-03-15
