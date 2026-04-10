@@ -9,7 +9,7 @@ LABEL org.opencontainers.image.vendor="Azure Linux"
 LABEL org.opencontainers.image.version="1.0"
 
 # Set environment variables for n8n configuration
-ENV N8N_VERSION=2.11.4
+ENV N8N_VERSION=2.15.1
 ENV N8N_USER_ID=1000
 ENV N8N_USER_GROUP=1000
 ENV N8N_USER_NAME=n8n
@@ -58,7 +58,7 @@ RUN tdnf update -y && \
         && \
     tdnf clean all
 
-# Install Node.js LTS version that satisfies >=20.19 <= 24.x
+# Install Node.js LTS version that satisfies >=22.16
 # Detect architecture and download appropriate Node.js binary
 RUN ARCH=$(uname -m) && \
     if [ "$ARCH" = "x86_64" ]; then \
