@@ -1,6 +1,8 @@
 # n8n Azure Deployment - Claude Code Guide
 
-**Production n8n on Azure Container Apps for MAS Advise Inc.**
+**DECOMMISSIONING — n8n on Azure Container Apps for MAS Advise Inc.**
+
+> **Status (2026-07)**: All projects migrated off n8n (cutover 2026-07-07; the instance has zero active workflows). This deployment is the residual G5 teardown target — the remaining work is shutting down the container app and cleaning up resources, not operating it. The Postgres server (`mas-n8n-postgress-db`) and Key Vault (`mas-n8n-kv`) are NOT part of the teardown — Klaus, mas, and sibling databases live there.
 
 ## Quick Status
 
@@ -66,13 +68,8 @@ az containerapp update --name mas-n8n-app --resource-group mas-n8n-rg \
 
 ---
 
-## Session Lifecycle
-
-- **Start**: `/bootstrap` (loads Klaus context, checks pending handoffs)
-- **End**: `/wrapup` (logs summary, updates SESSIONS, handles handoffs, checks git)
-
-Klaus capabilities are provided via the globally available `klaus-workflows`, `bootstrap`, and `wrapup` skills.
+@/home/brian/workspace/claude/context/mas-claude-context/claude-code/global/protocols/session-lifecycle.md
 
 ---
 
-**Last Updated**: 2026-03-15
+**Last Updated**: 2026-07-09
