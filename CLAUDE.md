@@ -68,7 +68,7 @@ az containerapp update --name mas-n8n-app --resource-group mas-n8n-rg \
 
 ---
 
-@/home/brian/workspace/claude/context/mas-claude-context/claude-code/global/protocols/session-lifecycle.md
+@/home/brian/workspace/development/klaus/.claude/home/protocols/session-lifecycle.md
 
 ---
 
